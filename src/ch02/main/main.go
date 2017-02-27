@@ -1,6 +1,7 @@
-package ch01
+package main
 
 import "fmt"
+import "ch02/classpath"
 
 func main() {
 	cmd := parseCmd()
@@ -14,6 +15,7 @@ func main() {
 }
 
 func startJVM(cmd *Cmd) {
+	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
 	fmt.Printf("classpath:%s class:%s args:%v\n",
 		cmd.cpOption, cmd.class, cmd.args)
 }
