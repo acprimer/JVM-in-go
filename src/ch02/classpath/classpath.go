@@ -3,8 +3,6 @@ package classpath
 import (
 	"path/filepath"
 	"os"
-	"encoding/json"
-	"debug/dwarf"
 )
 
 type Classpath struct {
@@ -17,6 +15,7 @@ func Parse(jreOption, cpOption string) *Classpath {
 	cp := &Classpath{}
 	cp.parseBootAndExtClasspath(jreOption)
 	cp.parseUserClasspath(cpOption)
+	return cp
 }
 
 func (self *Classpath) parseBootAndExtClasspath(jreOption string) {
