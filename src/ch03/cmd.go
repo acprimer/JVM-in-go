@@ -16,7 +16,7 @@ func parseCmd() *Cmd {
 	cmd := &Cmd{}
 	//cmd.XjreOption = "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre"
 	cmd.XjreOption = "C:\\Program Files\\Java\\jre1.8.0_101"
-	cmd.class = "java.lang.Object"
+	cmd.class = "java.lang.String"
 	//flag.Usage = printUsage
 	//flag.BoolVar(&cmd.helpFlag, "help	", false, "print help message")
 	//flag.BoolVar(&cmd.helpFlag, "?", false, "print help message")
