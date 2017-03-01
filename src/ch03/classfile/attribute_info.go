@@ -2,6 +2,7 @@ package classfile
 
 type AttributeInfo interface {
 	readInfo(reader *ClassReader)
+	PrintInfo() string
 }
 
 func readAttributes(reader *ClassReader, cp ConstantPool) []AttributeInfo {
@@ -25,5 +26,24 @@ func readAttribute(reader *ClassReader, cp ConstantPool) AttributeInfo {
 // 3.4.1
 func newAttributeInfo(attrName string, attrLen uint32,
 	cp ConstantPool) AttributeInfo {
-
+	switch attrName {
+	case "Code":
+		return &CodeAttribute{cp: cp}
+	case "ConstantValue":
+		return &ConstantValueAttribute{cp: cp, attrLen: attrLen}
+	case "Deprecated":
+		return &DeprecatedAttribute{}
+	case "Exceptions":
+		return &ExceptionsAttribute{}
+	case "LineNumberTable":
+		return &LineNumberTableAttribute{}
+	case "LocalVariableTableAttribute":
+		return &LocalVariableTableAttribute{}
+	case "SourceFile":
+		return &SourceFileAttribute{cp: cp}
+	case "Synthetic":
+		return &SyntheticAttribute{}
+	default:
+		return &UnparsedAttribute{attrName, attrLen, nil}
+	}
 }

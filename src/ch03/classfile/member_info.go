@@ -34,3 +34,24 @@ func (self *MemberInfo) Name() string {
 func (self *MemberInfo) Descriptor() string {
 	return self.cp.getUtf8(self.descriptorIndex)
 }
+
+func (self *MemberInfo) Attributes() []AttributeInfo {
+	return self.attributes
+}
+
+func ParseDescriptor(desc string) string {
+	switch desc {
+	case "B": return "byte"
+	case "C": return "char"
+	case "D": return "double"
+	case "F": return "float"
+	case "I": return "int"
+	case "J": return "long"
+	case "L": return "reference"
+	case "S": return "short"
+	case "Z": return "boolean"
+	case "[": return "reference"
+	default:
+		return "invalid descriptor"
+	}
+}

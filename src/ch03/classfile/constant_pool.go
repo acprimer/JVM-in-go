@@ -38,3 +38,28 @@ func (self ConstantPool) getUtf8(index uint16) string {
 	utf8Info := self.getConstantInfo(index).(*ConstantUtf8Info)
 	return utf8Info.str
 }
+
+func (self ConstantPool) getValue(index uint16) string {
+	utf8Info := self.getConstantInfo(index).(*ConstantUtf8Info)
+	return utf8Info.str
+}
+
+func (self ConstantPool) getIntegerValue(index uint16) int32 {
+	intInfo := self.getConstantInfo(index).(*ConstantIntegerInfo)
+	return intInfo.val
+}
+
+func (self ConstantPool) getLongValue(index uint16) int64 {
+	longInfo := self.getConstantInfo(index).(*ConstantLongInfo)
+	return longInfo.val
+}
+
+func (self ConstantPool) getFloatValue(index uint16) float32 {
+	floatInfo := self.getConstantInfo(index).(*ConstantFloatInfo)
+	return floatInfo.val
+}
+
+func (self ConstantPool) getDoubleValue(index uint16) float64 {
+	doubleInfo := self.getConstantInfo(index).(*ConstantDoubleInfo)
+	return doubleInfo.val
+}

@@ -1,5 +1,7 @@
 package classfile
 
+import "fmt"
+
 type ConstantUtf8Info struct {
 	str string
 }
@@ -12,4 +14,8 @@ func (self *ConstantUtf8Info) readInfo(reader *ClassReader) {
 
 func decodeMUTF8(bytes []byte) string {
 	return string(bytes)
+}
+
+func (self *ConstantUtf8Info) GetConstantInfo() string {
+	return fmt.Sprintf("%-19s%v", "Utf8", self.str)
 }

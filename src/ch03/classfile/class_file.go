@@ -15,7 +15,7 @@ type ClassFile struct {
 	interfaces   []uint16
 	fields       []*MemberInfo
 	methods      []*MemberInfo
-	attributes []AttributeInfo
+	attributes   []AttributeInfo
 }
 
 func Parse(classData []byte) (cf *ClassFile, err error) {
@@ -43,6 +43,7 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.superClass = reader.readUint16()
 	self.interfaces = reader.readUint16s()
 	self.fields = readMembers(reader, self.constantPool)
+	self.methods = readMembers(reader, self.constantPool)
 	self.attributes = readAttributes(reader, self.constantPool)
 }
 
@@ -113,4 +114,8 @@ func (self *ClassFile) InterfaceNames() []string {
 		interfaceNames[i] = self.constantPool.getClassName(cpIndex)
 	}
 	return interfaceNames
+}
+
+func (self *ClassFile) Attributes() []AttributeInfo {
+	return self.attributes
 }
