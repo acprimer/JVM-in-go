@@ -1,6 +1,8 @@
 package classfile
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type ClassFile struct {
 	magic        uint32
@@ -13,7 +15,7 @@ type ClassFile struct {
 	interfaces   []uint16
 	fields       []*MemberInfo
 	methods      []*MemberInfo
-	//attributes []AttributeInfo
+	attributes []AttributeInfo
 }
 
 func Parse(classData []byte) (cf *ClassFile, err error) {
@@ -35,7 +37,13 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 func (self *ClassFile) read(reader *ClassReader) {
 	self.readAndCheckMagic(reader)
 	self.readAndCheckVersion(reader)
-	self.readConstantPool(reader)
+	self.constantPool = readConstantPool(reader)
+	self.accessFlags = reader.readUint16()
+	self.thisClass = reader.readUint16()
+	self.superClass = reader.readUint16()
+	self.interfaces = reader.readUint16s()
+	self.fields = readMembers(reader, self.constantPool)
+	self.attributes = readAttributes(reader, self.constantPool)
 }
 
 func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
@@ -57,10 +65,6 @@ func (self *ClassFile) readAndCheckVersion(reader *ClassReader) {
 		}
 	}
 	panic("java.lang.UnsupportedClassVersionError!")
-}
-
-func (self *ClassFile) readConstantPool(reader *ClassReader) {
-
 }
 
 // getter function
@@ -97,9 +101,16 @@ func (self *ClassFile) ClassName() string {
 }
 
 func (self *ClassFile) SuperClassName() string {
-	return self.constantPool.getClassName(self.thisClass)
+	if self.superClass > 0 {
+		return self.constantPool.getClassName(self.superClass)
+	}
+	return ""
 }
 
-//func (self *ClassFile) InterfaceNames() []string {
-//	return self.constantPool.getClassName(self.thisClass)
-//}
+func (self *ClassFile) InterfaceNames() []string {
+	interfaceNames := make([]string, len(self.interfaces))
+	for i, cpIndex := range self.interfaces {
+		interfaceNames[i] = self.constantPool.getClassName(cpIndex)
+	}
+	return interfaceNames
+}
