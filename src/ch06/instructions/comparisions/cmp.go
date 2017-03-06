@@ -1,8 +1,8 @@
 package comparisions
 
 import (
-	"ch05/instructions/base"
-	"ch05/rtda"
+	"ch06/instructions/base"
+	"ch06/rtda"
 )
 
 type LCMP struct{ base.NoOperandsInstruction }

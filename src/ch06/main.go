@@ -3,14 +3,14 @@ package main
 import "fmt"
 import (
 	"strings"
-	"ch05/classpath"
-	"ch05/classfile"
+	"ch06/classpath"
+	"ch06/classfile"
 )
 
 func main() {
 	cmd := parseCmd()
 	if cmd.versionFlag {
-		fmt.Println("version 0.0.5")
+		fmt.Println("version 0.0.6")
 	} else if cmd.helpFlag || cmd.class == "" {
 		printUsage()
 	} else {
