@@ -1,13 +1,12 @@
-package rtda
+package heap
 
 import (
-	"ch06/rtda"
 	"math"
 )
 
 type Slot struct {
 	num int32
-	ref *rtda.Object
+	ref *Object
 }
 
 type Slots []Slot
@@ -58,10 +57,10 @@ func (self Slots) GetDouble(index uint) float64 {
 	return math.Float64frombits(bits)
 }
 
-func (self Slots) SetRef(index uint, ref *rtda.Object) {
+func (self Slots) SetRef(index uint, ref *Object) {
 	self[index].ref = ref
 }
 
-func (self Slots) GetRef(index uint) *rtda.Object {
+func (self Slots) GetRef(index uint) *Object {
 	return self[index].ref
 }

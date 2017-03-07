@@ -2,22 +2,18 @@ package main
 
 import (
 	"fmt"
-	"ch06/classfile"
 	"ch06/rtda"
 	"ch06/instructions/base"
 	"ch06/instructions"
+	"ch06/rtda/heap"
 )
 
-func interpret(methodInfo *classfile.MemberInfo) {
-	codeAttr := methodInfo.CodeAttribute()
-	maxLocals := codeAttr.MaxLocals()
-	maxStack := codeAttr.MaxStack()
-	bytecode := codeAttr.Code()
+func interpret(method *heap.Method) {
 	thread := rtda.NewThread()
-	frame := thread.NewFrame(uint(maxLocals), uint(maxStack))
+	frame := thread.NewFrame(method)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
-	loop(thread, bytecode)
+	loop(thread, method.Code())
 }
 
 func catchErr(frame *rtda.Frame) {
@@ -29,9 +25,9 @@ func catchErr(frame *rtda.Frame) {
 }
 
 func loop(thread *rtda.Thread, bytecode []byte) {
-	frame := thread.PopFrame()
 	reader := &base.BytecodeReader{}
 	for {
+		frame := thread.CurrentFrame()
 		pc := frame.NextPC()
 		thread.SetPC(pc)
 		// decode
@@ -43,5 +39,8 @@ func loop(thread *rtda.Thread, bytecode []byte) {
 		// execute
 		fmt.Printf("pc: %2d instruction: %T %v\n", pc, inst, inst)
 		inst.Execute(frame)
+		if thread.IsStackEmpty() {
+			break
+		}
 	}
 }

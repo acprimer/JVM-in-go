@@ -1,4 +1,4 @@
-package rtda
+package heap
 
 const (
 	ACC_PUBLIC       = 0x0001
@@ -18,5 +18,17 @@ const (
 	ACC_STRICT       = 0x0800
 	ACC_SYNTHETIC    = 0x1000
 	ACC_ANNOTATION   = 0x2000
-	ACC_ENUM         = 0x8000
+	ACC_ENUM         = 0x4000
 )
+
+type AccessFlags struct {
+	accessFlags uint16
+}
+
+func (self *AccessFlags) GetAccessFlags() uint16 {
+	return self.accessFlags
+}
+
+func (self *AccessFlags) IsFlagSet(flag uint16) bool {
+	return self.accessFlags & flag != 0
+}

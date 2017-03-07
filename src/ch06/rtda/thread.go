@@ -1,5 +1,7 @@
 package rtda
 
+import "ch06/rtda/heap"
+
 type Thread struct {
 	pc int
 	stack *Stack
@@ -31,6 +33,10 @@ func (self *Thread) CurrentFrame() *Frame {
 	return self.stack.top()
 }
 
-func (self *Thread) NewFrame(maxLocals, maxStack uint) *Frame {
-	return newFrame(self, maxLocals, maxStack)
+func (self *Thread) NewFrame(method *heap.Method) *Frame {
+	return newFrame(self, method)
+}
+
+func (self *Thread) IsStackEmpty() bool {
+	return self.stack.size == 0
 }
