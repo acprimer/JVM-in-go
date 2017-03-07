@@ -31,7 +31,7 @@ func loop(thread *rtda.Thread, bytecode []byte) {
 		pc := frame.NextPC()
 		thread.SetPC(pc)
 		// decode
-		reader.Reset(bytecode, pc)
+		reader.Reset(frame.Method().Code(), pc)
 		opcode := reader.ReadUint8()
 		inst := instructions.NewInstruction(opcode)
 		inst.FetchOperands(reader)

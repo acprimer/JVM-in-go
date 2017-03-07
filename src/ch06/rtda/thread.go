@@ -38,5 +38,5 @@ func (self *Thread) NewFrame(method *heap.Method) *Frame {
 }
 
 func (self *Thread) IsStackEmpty() bool {
-	return self.stack.size == 0
+	return self.stack.isEmpty()
 }
