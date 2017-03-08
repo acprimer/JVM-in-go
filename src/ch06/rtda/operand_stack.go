@@ -3,6 +3,7 @@ package rtda
 import (
 	"math"
 	"ch06/rtda/heap"
+	"fmt"
 )
 
 type OperandStack struct {
@@ -21,6 +22,18 @@ func newOperandStack(maxStack uint) *OperandStack {
 
 func (self *OperandStack) GetRefFromTop(n uint) *heap.Object {
 	return self.slots[self.size-1-n].ref
+}
+
+func (self *OperandStack) PushBoolean(val bool) {
+	if val {
+		self.PushInt(1)
+	} else {
+		self.PushInt(0)
+	}
+}
+
+func (self *OperandStack) PopBoolean() bool {
+	return self.PopInt() != 0
 }
 
 func (self *OperandStack) PushInt(val int32) {
@@ -88,4 +101,13 @@ func (self *OperandStack) PushSlot(slot Slot) {
 func (self *OperandStack) PopSlot() Slot {
 	self.size--
 	return self.slots[self.size]
+}
+
+func (self *OperandStack) Print() {
+	fmt.Print("OperandStack: ")
+	var i uint
+	for i = 0; i < self.size; i ++ {
+		fmt.Printf("%v, ", self.slots[i].num)
+	}
+	fmt.Println()
 }

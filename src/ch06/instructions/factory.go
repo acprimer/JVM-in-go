@@ -12,6 +12,7 @@ import (
 	"ch06/instructions/comparisions"
 	"ch06/instructions/control"
 	"ch06/instructions/references"
+	"ch06/instructions/extended"
 )
 
 var (
@@ -51,118 +52,118 @@ var (
 	aload_1     = &loads.ALOAD_1{}
 	aload_2     = &loads.ALOAD_2{}
 	aload_3     = &loads.ALOAD_3{}
-	//iaload        = &loads.IALOAD{}
-	//laload        = &loads.LALOAD{}
-	//faload        = &loads.FALOAD{}
-	//daload        = &loads.DALOAD{}
-	//aaload        = &loads.AALOAD{}
-	//baload        = &loads.BALOAD{}
-	//caload        = &loads.CALOAD{}
-	//saload        = &loads.SALOAD{}
-	istore_0 = &stores.ISTORE_0{}
-	istore_1 = &stores.ISTORE_1{}
-	istore_2 = &stores.ISTORE_2{}
-	istore_3 = &stores.ISTORE_3{}
-	lstore_0 = &stores.LSTORE_0{}
-	lstore_1 = &stores.LSTORE_1{}
-	lstore_2 = &stores.LSTORE_2{}
-	lstore_3 = &stores.LSTORE_3{}
-	fstore_0 = &stores.FSTORE_0{}
-	fstore_1 = &stores.FSTORE_1{}
-	fstore_2 = &stores.FSTORE_2{}
-	fstore_3 = &stores.FSTORE_3{}
-	dstore_0 = &stores.DSTORE_0{}
-	dstore_1 = &stores.DSTORE_1{}
-	dstore_2 = &stores.DSTORE_2{}
-	dstore_3 = &stores.DSTORE_3{}
-	astore_0 = &stores.ASTORE_0{}
-	astore_1 = &stores.ASTORE_1{}
-	astore_2 = &stores.ASTORE_2{}
-	astore_3 = &stores.ASTORE_3{}
-	//iastore       = &stores.IASTORE{}
-	//lastore       = &stores.LASTORE{}
-	//fastore       = &stores.FASTORE{}
-	//dastore       = &stores.DASTORE{}
-	//aastore       = &stores.AASTORE{}
-	//bastore       = &stores.BASTORE{}
-	//castore       = &stores.CASTORE{}
-	//sastore       = &stores.SASTORE{}
-	pop     = &stack.POP{}
-	pop2    = &stack.POP2{}
-	dup     = &stack.DUP{}
-	dup_x1  = &stack.DUP_X1{}
-	dup_x2  = &stack.DUP_X2{}
-	dup2    = &stack.DUP2{}
-	dup2_x1 = &stack.DUP2_X1{}
-	dup2_x2 = &stack.DUP2_X2{}
-	swap    = &stack.SWAP{}
-	iadd    = &math.IADD{}
-	ladd    = &math.LADD{}
-	fadd    = &math.FADD{}
-	dadd    = &math.DADD{}
-	isub    = &math.ISUB{}
-	lsub    = &math.LSUB{}
-	fsub    = &math.FSUB{}
-	dsub    = &math.DSUB{}
-	imul    = &math.IMUL{}
-	lmul    = &math.LMUL{}
-	fmul    = &math.FMUL{}
-	dmul    = &math.DMUL{}
-	idiv    = &math.IDIV{}
-	ldiv    = &math.LDIV{}
-	fdiv    = &math.FDIV{}
-	ddiv    = &math.DDIV{}
-	irem    = &math.IREM{}
-	lrem    = &math.LREM{}
-	frem    = &math.FREM{}
-	drem    = &math.DREM{}
-	ineg    = &math.INEG{}
-	lneg    = &math.LNEG{}
-	fneg    = &math.FNEG{}
-	dneg    = &math.DNEG{}
-	ishl    = &math.ISHL{}
-	lshl    = &math.LSHL{}
-	ishr    = &math.ISHR{}
-	lshr    = &math.LSHR{}
-	iushr   = &math.IUSHR{}
-	lushr   = &math.LUSHR{}
-	iand    = &math.IAND{}
-	land    = &math.LAND{}
-	ior     = &math.IOR{}
-	lor     = &math.LOR{}
-	ixor    = &math.IXOR{}
-	lxor    = &math.LXOR{}
-	i2l     = &conversions.I2L{}
-	i2f     = &conversions.I2F{}
-	i2d     = &conversions.I2D{}
-	l2i     = &conversions.L2I{}
-	l2f     = &conversions.L2F{}
-	l2d     = &conversions.L2D{}
-	f2i     = &conversions.F2I{}
-	f2l     = &conversions.F2L{}
-	f2d     = &conversions.F2D{}
-	d2i     = &conversions.D2I{}
-	d2l     = &conversions.D2L{}
-	d2f     = &conversions.D2F{}
-	i2b     = &conversions.I2B{}
-	i2c     = &conversions.I2C{}
-	i2s     = &conversions.I2S{}
-	lcmp    = &comparisions.LCMP{}
-	fcmpl   = &comparisions.FCMPL{}
-	fcmpg   = &comparisions.FCMPG{}
-	dcmpl   = &comparisions.DCMPL{}
-	dcmpg   = &comparisions.DCMPG{}
-	ireturn       = &control.IRETURN{}
-	lreturn       = &control.LRETURN{}
-	freturn       = &control.FRETURN{}
-	dreturn       = &control.DRETURN{}
-	areturn       = &control.ARETURN{}
-	_return       = &control.RETURN{}
-	//arraylength   = &ARRAY_LENGTH{}
+	iaload      = &loads.IALOAD{}
+	laload      = &loads.LALOAD{}
+	faload      = &loads.FALOAD{}
+	daload      = &loads.DALOAD{}
+	aaload      = &loads.AALOAD{}
+	baload      = &loads.BALOAD{}
+	caload      = &loads.CALOAD{}
+	saload      = &loads.SALOAD{}
+	istore_0    = &stores.ISTORE_0{}
+	istore_1    = &stores.ISTORE_1{}
+	istore_2    = &stores.ISTORE_2{}
+	istore_3    = &stores.ISTORE_3{}
+	lstore_0    = &stores.LSTORE_0{}
+	lstore_1    = &stores.LSTORE_1{}
+	lstore_2    = &stores.LSTORE_2{}
+	lstore_3    = &stores.LSTORE_3{}
+	fstore_0    = &stores.FSTORE_0{}
+	fstore_1    = &stores.FSTORE_1{}
+	fstore_2    = &stores.FSTORE_2{}
+	fstore_3    = &stores.FSTORE_3{}
+	dstore_0    = &stores.DSTORE_0{}
+	dstore_1    = &stores.DSTORE_1{}
+	dstore_2    = &stores.DSTORE_2{}
+	dstore_3    = &stores.DSTORE_3{}
+	astore_0    = &stores.ASTORE_0{}
+	astore_1    = &stores.ASTORE_1{}
+	astore_2    = &stores.ASTORE_2{}
+	astore_3    = &stores.ASTORE_3{}
+	iastore     = &stores.IASTORE{}
+	lastore     = &stores.LASTORE{}
+	fastore     = &stores.FASTORE{}
+	dastore     = &stores.DASTORE{}
+	aastore     = &stores.AASTORE{}
+	bastore     = &stores.BASTORE{}
+	castore     = &stores.CASTORE{}
+	sastore     = &stores.SASTORE{}
+	pop         = &stack.POP{}
+	pop2        = &stack.POP2{}
+	dup         = &stack.DUP{}
+	dup_x1      = &stack.DUP_X1{}
+	dup_x2      = &stack.DUP_X2{}
+	dup2        = &stack.DUP2{}
+	dup2_x1     = &stack.DUP2_X1{}
+	dup2_x2     = &stack.DUP2_X2{}
+	swap        = &stack.SWAP{}
+	iadd        = &math.IADD{}
+	ladd        = &math.LADD{}
+	fadd        = &math.FADD{}
+	dadd        = &math.DADD{}
+	isub        = &math.ISUB{}
+	lsub        = &math.LSUB{}
+	fsub        = &math.FSUB{}
+	dsub        = &math.DSUB{}
+	imul        = &math.IMUL{}
+	lmul        = &math.LMUL{}
+	fmul        = &math.FMUL{}
+	dmul        = &math.DMUL{}
+	idiv        = &math.IDIV{}
+	ldiv        = &math.LDIV{}
+	fdiv        = &math.FDIV{}
+	ddiv        = &math.DDIV{}
+	irem        = &math.IREM{}
+	lrem        = &math.LREM{}
+	frem        = &math.FREM{}
+	drem        = &math.DREM{}
+	ineg        = &math.INEG{}
+	lneg        = &math.LNEG{}
+	fneg        = &math.FNEG{}
+	dneg        = &math.DNEG{}
+	ishl        = &math.ISHL{}
+	lshl        = &math.LSHL{}
+	ishr        = &math.ISHR{}
+	lshr        = &math.LSHR{}
+	iushr       = &math.IUSHR{}
+	lushr       = &math.LUSHR{}
+	iand        = &math.IAND{}
+	land        = &math.LAND{}
+	ior         = &math.IOR{}
+	lor         = &math.LOR{}
+	ixor        = &math.IXOR{}
+	lxor        = &math.LXOR{}
+	i2l         = &conversions.I2L{}
+	i2f         = &conversions.I2F{}
+	i2d         = &conversions.I2D{}
+	l2i         = &conversions.L2I{}
+	l2f         = &conversions.L2F{}
+	l2d         = &conversions.L2D{}
+	f2i         = &conversions.F2I{}
+	f2l         = &conversions.F2L{}
+	f2d         = &conversions.F2D{}
+	d2i         = &conversions.D2I{}
+	d2l         = &conversions.D2L{}
+	d2f         = &conversions.D2F{}
+	i2b         = &conversions.I2B{}
+	i2c         = &conversions.I2C{}
+	i2s         = &conversions.I2S{}
+	lcmp        = &comparisions.LCMP{}
+	fcmpl       = &comparisions.FCMPL{}
+	fcmpg       = &comparisions.FCMPG{}
+	dcmpl       = &comparisions.DCMPL{}
+	dcmpg       = &comparisions.DCMPG{}
+	ireturn     = &control.IRETURN{}
+	lreturn     = &control.LRETURN{}
+	freturn     = &control.FRETURN{}
+	dreturn     = &control.DRETURN{}
+	areturn     = &control.ARETURN{}
+	_return     = &control.RETURN{}
+	arraylength = &references.ARRAY_LENGTH{}
 	//athrow        = &ATHROW{}
 	//monitorenter  = &MONITOR_ENTER{}
 	//monitorexit   = &MONITOR_EXIT{}
-	//invoke_native = &INVOKE_NATIVE{}
+	invoke_native = &references.INVOKE_NATIVE{}
 )
 
 func NewInstruction(opcode byte) base.Instruction {
@@ -209,16 +210,16 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &constants.LDC_W{}
 	case 0x14:
 		return &constants.LDC2_W{}
-	//case 0x15:
-	//	return &ILOAD{}
-	//case 0x16:
-	//	return &LLOAD{}
-	//case 0x17:
-	//	return &FLOAD{}
-	//case 0x18:
-	//	return &DLOAD{}
-	//case 0x19:
-	//	return &ALOAD{}
+	case 0x15:
+		return &loads.ILOAD{}
+	case 0x16:
+		return &loads.LLOAD{}
+	case 0x17:
+		return &loads.FLOAD{}
+	case 0x18:
+		return &loads.DLOAD{}
+	case 0x19:
+		return &loads.ALOAD{}
 	case 0x1a:
 		return iload_0
 	case 0x1b:
@@ -259,32 +260,32 @@ func NewInstruction(opcode byte) base.Instruction {
 		return aload_2
 	case 0x2d:
 		return aload_3
-	//case 0x2e:
-	//	return iaload
-	//case 0x2f:
-	//	return laload
-	//case 0x30:
-	//	return faload
-	//case 0x31:
-	//	return daload
-	//case 0x32:
-	//	return aaload
-	//case 0x33:
-	//	return baload
-	//case 0x34:
-	//	return caload
-	//case 0x35:
-	//	return saload
-	//case 0x36:
-	//	return &ISTORE{}
-	//case 0x37:
-	//	return &LSTORE{}
-	//case 0x38:
-	//	return &FSTORE{}
-	//case 0x39:
-	//	return &DSTORE{}
-	//case 0x3a:
-	//	return &ASTORE{}
+	case 0x2e:
+		return iaload
+	case 0x2f:
+		return laload
+	case 0x30:
+		return faload
+	case 0x31:
+		return daload
+	case 0x32:
+		return aaload
+	case 0x33:
+		return baload
+	case 0x34:
+		return caload
+	case 0x35:
+		return saload
+	case 0x36:
+		return &stores.ISTORE{}
+	case 0x37:
+		return &stores.LSTORE{}
+	case 0x38:
+		return &stores.FSTORE{}
+	case 0x39:
+		return &stores.DSTORE{}
+	case 0x3a:
+		return &stores.ASTORE{}
 	case 0x3b:
 		return istore_0
 	case 0x3c:
@@ -325,22 +326,22 @@ func NewInstruction(opcode byte) base.Instruction {
 		return astore_2
 	case 0x4e:
 		return astore_3
-	//case 0x4f:
-	//	return iastore
-	//case 0x50:
-	//	return lastore
-	//case 0x51:
-	//	return fastore
-	//case 0x52:
-	//	return dastore
-	//case 0x53:
-	//	return aastore
-	//case 0x54:
-	//	return bastore
-	//case 0x55:
-	//	return castore
-	//case 0x56:
-	//	return sastore
+	case 0x4f:
+		return iastore
+	case 0x50:
+		return lastore
+	case 0x51:
+		return fastore
+	case 0x52:
+		return dastore
+	case 0x53:
+		return aastore
+	case 0x54:
+		return bastore
+	case 0x55:
+		return castore
+	case 0x56:
+		return sastore
 	case 0x57:
 		return pop
 	case 0x58:
@@ -543,12 +544,12 @@ func NewInstruction(opcode byte) base.Instruction {
 	//	return &references.INVOKE_DYNAMIC{}
 	case 0xbb:
 		return &references.NEW{}
-	//case 0xbc:
-	//	return &NEW_ARRAY{}
-	//case 0xbd:
-	//	return &ANEW_ARRAY{}
-	//case 0xbe:
-	//	return arraylength
+	case 0xbc:
+		return &references.NEW_ARRAY{}
+	case 0xbd:
+		return &references.ANEW_ARRAY{}
+	case 0xbe:
+		return arraylength
 	//case 0xbf:
 	//	return athrow
 	case 0xc0:
@@ -559,21 +560,21 @@ func NewInstruction(opcode byte) base.Instruction {
 	//	return monitorenter
 	//case 0xc3:
 	//	return monitorexit
-	//case 0xc4:
-	//	return &WIDE{}
-	//case 0xc5:
-	//	return &MULTI_ANEW_ARRAY{}
-	//case 0xc6:
-	//	return &IFNULL{}
-	//case 0xc7:
-	//	return &IFNONNULL{}
-	//case 0xc8:
-	//	return &GOTO_W{}
+	case 0xc4:
+		return &extended.WIDE{}
+	case 0xc5:
+		return &references.MULTI_ANEW_ARRAY{}
+	case 0xc6:
+		return &extended.IFNULL{}
+	case 0xc7:
+		return &extended.IFNONNULL{}
+	case 0xc8:
+		return &extended.GOTO_W{}
 	//case 0xc9:
 	//	return &JSR_W{}
 	////case 0xca: todo breakpoint
-	//case 0xfe:
-	//	return invoke_native // impdep1
+	case 0xfe:
+		return invoke_native // impdep1
 	//case 0xff:
 	//	return &BOOTSTRAP{} // impdep2
 	default:

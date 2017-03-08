@@ -17,6 +17,11 @@ func (self *PUT_STATIC) Execute(frame *rtda.Frame) {
 	fieldRf := cp.GetConstant(self.Index).(*heap.FieldRef)
 	field := fieldRf.ResolvedField()
 	class := field.Class()
+	if !class.InitStarted() {
+		frame.RevertNextPC()
+		base.InitClass(frame.Thread(), class)
+		return
+	}
 	if !field.IsFlagSet(heap.ACC_STATIC) {
 		panic("java.lang.IncompatibleClassChangError")
 	}

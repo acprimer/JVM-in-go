@@ -13,7 +13,7 @@ func interpret(method *heap.Method) {
 	frame := thread.NewFrame(method)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
-	loop(thread, method.Code())
+	loop(thread)
 }
 
 func catchErr(frame *rtda.Frame) {
@@ -24,7 +24,7 @@ func catchErr(frame *rtda.Frame) {
 	}
 }
 
-func loop(thread *rtda.Thread, bytecode []byte) {
+func loop(thread *rtda.Thread) {
 	reader := &base.BytecodeReader{}
 	for {
 		frame := thread.CurrentFrame()
@@ -37,8 +37,9 @@ func loop(thread *rtda.Thread, bytecode []byte) {
 		inst.FetchOperands(reader)
 		frame.SetNextPC(reader.PC())
 		// execute
-		fmt.Printf("pc: %2d instruction: %T %v\n", pc, inst, inst)
+		fmt.Printf("pc:%2d instruction: %T %v\n", pc, inst, inst)
 		inst.Execute(frame)
+		//frame.Print()
 		if thread.IsStackEmpty() {
 			break
 		}

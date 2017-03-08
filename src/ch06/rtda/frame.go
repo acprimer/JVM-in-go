@@ -51,3 +51,12 @@ func Branch(frame *Frame, offset int) {
 	nextPC := pc + offset
 	frame.SetNextPC(nextPC)
 }
+
+func (self *Frame) RevertNextPC() {
+	self.nextPC = self.thread.pc
+}
+
+func (self *Frame) Print() {
+	self.localVars.Print()
+	self.operandStack.Print()
+}

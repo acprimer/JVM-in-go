@@ -15,6 +15,13 @@ func (self *GET_STATIC) Execute(frame *rtda.Frame) {
 	fieldRef := cp.GetConstant(self.Index).(*heap.FieldRef)
 	field := fieldRef.ResolvedField()
 	class := field.Class()
+
+	if !class.InitStarted() {
+		frame.RevertNextPC()
+		base.InitClass(frame.Thread(), class)
+		return
+	}
+
 	if !field.IsFlagSet(heap.ACC_STATIC) {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
@@ -23,6 +30,7 @@ func (self *GET_STATIC) Execute(frame *rtda.Frame) {
 	slotId := field.SlotId()
 	slots := class.StaticVars()
 	stack := frame.OperandStack()
+
 	switch descriptor[0] {
 	case 'Z', 'B', 'C', 'S', 'I':
 		stack.PushInt(slots.GetInt(slotId))

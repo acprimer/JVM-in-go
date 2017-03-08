@@ -3,6 +3,7 @@ package rtda
 import (
 	"math"
 	"ch06/rtda/heap"
+	"fmt"
 )
 
 type Slot struct {
@@ -68,4 +69,12 @@ func (self LocalVars) GetRef(index uint) *heap.Object {
 
 func (self LocalVars) SetSlot(index uint, slot Slot) {
 	self[index] = slot
+}
+
+func (self LocalVars) Print() {
+	fmt.Print("LocalVars   : ")
+	for _, slot := range self {
+		fmt.Printf("%v, ", slot.num)
+	}
+	fmt.Println()
 }

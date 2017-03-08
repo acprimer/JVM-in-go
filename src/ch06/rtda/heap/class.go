@@ -19,6 +19,8 @@ type Class struct {
 	instanceSlotCount uint
 	staticSlotCount   uint
 	staticVars        Slots
+	initStarted       bool
+	jClass            *Object
 }
 
 func newClass(cf *classfile.ClassFile) *Class {
@@ -33,6 +35,18 @@ func newClass(cf *classfile.ClassFile) *Class {
 	return class
 }
 
+func (self *Class) InitStarted() bool {
+	return self.initStarted
+}
+
+func (self *Class) StartInit() {
+	self.initStarted = true
+}
+
+func (self *Class) Name() string {
+	return self.name
+}
+
 func (self *Class) ConstantPool() *ConstantPool {
 	return self.constantPool
 }
@@ -41,8 +55,25 @@ func (self *Class) StaticVars() Slots {
 	return self.staticVars
 }
 
+func (self *Class) Loader() *ClassLoader {
+	return self.loader
+}
+
 func (self *Class) SuperClass() *Class {
 	return self.superClass
+}
+
+func (self *Class) JClass() *Object {
+	return self.jClass
+}
+
+func (self *Class) JavaName() string {
+	return strings.Replace(self.name, "/", ".", -1)
+}
+
+func (self *Class) IsPrimitive() bool {
+	_, ok := primitiveTypes[self.name]
+	return ok
 }
 
 func (self *Class) isAccessibleTo(other *Class) bool {
@@ -61,16 +92,68 @@ func (self *Class) NewObject() *Object {
 }
 
 func (self *Class) GetMainMethod() *Method {
-	return self.getMainMethod("main", "([Ljava/lang/String;)V")
+	return self.GetStaticMethod("main", "([Ljava/lang/String;)V")
 }
 
-func (self *Class) getMainMethod(name, descriptor string) *Method {
-	for _, method := range self.methods {
-		if method.IsFlagSet(ACC_STATIC) &&
-			method.name == name &&
-			method.descriptor == descriptor {
-			return method
+func (self *Class) GetInstanceMethod(name, descriptor string) *Method {
+	return self.getMethod(name, descriptor, false)
+}
+
+func (self *Class) GetStaticMethod(name, descriptor string) *Method {
+	return self.getMethod(name, descriptor, true)
+}
+
+func (self *Class) getMethod(name, descriptor string, isStatic bool) *Method {
+	for c := self; c != nil; c = c.superClass {
+		for _, method := range c.methods {
+			if isStatic == method.IsFlagSet(ACC_STATIC) &&
+				method.name == name && method.descriptor == descriptor {
+				return method
+			}
 		}
 	}
 	return nil
+}
+
+func (self *Class) GetClinitMethod() *Method {
+	return self.GetStaticMethod("<clinit>", "()V")
+}
+
+func (self *Class) ArrayClass() *Class {
+	arrClassName := getArrayClassName(self.name)
+	return self.loader.LoadClass(arrClassName)
+}
+
+func (self *Class) isJlObject() bool {
+	return self.name == "java/lang/Object"
+}
+
+func (self *Class) isJlCloneable() bool {
+	return self.name == "java/lang/Cloneable"
+}
+
+func (self *Class) isJioSerializable() bool {
+	return self.name == "java/io/Serializable"
+}
+
+func (self *Class) getField(name, descriptor string, isStatic bool) *Field {
+	for c := self; c != nil; c = c.superClass {
+		for _, field := range c.fields {
+			if field.IsFlagSet(ACC_STATIC) == isStatic &&
+				field.name == name && field.descriptor == descriptor {
+				return field
+			}
+		}
+	}
+	return nil
+}
+
+func (self *Class) GetRefVar(fieldName, fieldDescriptor string) *Object {
+	field := self.getField(fieldName, fieldDescriptor, true)
+	return self.staticVars.GetRef(field.slotId)
+}
+
+func (self *Class) SetRefVar(fieldName, fieldDescriptor string, ref *Object) {
+	field := self.getField(fieldName, fieldDescriptor, true)
+	self.staticVars.SetRef(field.slotId, ref)
 }

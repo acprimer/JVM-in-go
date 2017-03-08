@@ -16,4 +16,14 @@ func InvokeMethod(frame *rtda.Frame, method *heap.Method) {
 			newFrame.LocalVars().SetSlot(uint(i), slot)
 		}
 	}
+
+	// hack
+	//if method.IsFlagSet(heap.ACC_NATIVE) {
+	//	if method.Name() == "registerNatives" {
+	//		thread.PopFrame()
+	//	} else {
+	//		panic(fmt.Sprintf("native method: %v.%v%v\n",
+	//			method.Class().Name(), method.Name(), method.Descriptor()))
+	//	}
+	//}
 }
