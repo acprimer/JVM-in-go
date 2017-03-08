@@ -13,13 +13,13 @@ func InitClass(thread *rtda.Thread, class *heap.Class) {
 
 func scheduleClinit(thread *rtda.Thread, class *heap.Class) {
 	clinit := class.GetClinitMethod()
-	if clinit != nil && clinit.Class() == class{
+	if clinit != nil && clinit.Class() == class {
 		newFrame := thread.NewFrame(clinit)
 		thread.PushFrame(newFrame)
 	}
 }
 
-func initSuperClass(thread *rtda.Thread, class *heap.Class)  {
+func initSuperClass(thread *rtda.Thread, class *heap.Class) {
 	if !class.IsFlagSet(heap.ACC_INTERFACE) {
 		superClass := class.SuperClass()
 		if superClass != nil && !superClass.InitStarted() {

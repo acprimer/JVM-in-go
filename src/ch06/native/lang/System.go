@@ -9,7 +9,7 @@ import (
 func init() {
 	native.Register("java/lang/System",
 		"arraycopy",
-		"(Ljava/lang/Object;ILjava/lang/Object;II)V", getClass)
+		"(Ljava/lang/Object;ILjava/lang/Object;II)V", arraycopy)
 }
 
 func arraycopy(frame *rtda.Frame) {

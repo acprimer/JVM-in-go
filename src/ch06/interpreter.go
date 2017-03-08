@@ -5,21 +5,22 @@ import (
 	"ch06/rtda"
 	"ch06/instructions/base"
 	"ch06/instructions"
-	"ch06/rtda/heap"
 )
 
-func interpret(method *heap.Method) {
-	thread := rtda.NewThread()
-	frame := thread.NewFrame(method)
-	thread.PushFrame(frame)
-	defer catchErr(frame)
+func interpret(thread *rtda.Thread) {
+	defer catchErr(thread)
 	loop(thread)
 }
 
-func catchErr(frame *rtda.Frame) {
+func catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
-		fmt.Printf("LocalVars: %v\n", frame.LocalVars())
-		fmt.Printf("OperandStack: %v\n", frame.OperandStack())
+		for !thread.IsStackEmpty() {
+			frame := thread.PopFrame()
+			method := frame.Method()
+			className := method.Class().Name()
+			fmt.Printf(">> pc:%4d %v.%v%v \n",
+				frame.NextPC(), className, method.Name(), method.Descriptor())
+		}
 		panic(r)
 	}
 }

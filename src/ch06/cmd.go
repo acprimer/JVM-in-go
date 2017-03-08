@@ -15,13 +15,13 @@ type Cmd struct {
 func parseCmd() *Cmd {
 	cmd := &Cmd{}
 	// mac os
-	//cmd.XjreOption = "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre"
-	//cmd.cpOption = "/Users/yaodh/JavaProjects/DataStructure/out/production/DataStructure"
-	//cmd.class = "TestJava"
+	cmd.XjreOption = "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre"
+	cmd.cpOption = "/Users/yaodh/JavaProjects/DataStructure/out/production/DataStructure"
+	cmd.class = "TestJava"
 	// win
-	cmd.XjreOption = "C:\\Program Files\\Java\\jre1.8.0_101"
-	cmd.cpOption = "E:\\JavaProject\\DataStructure\\out\\production\\DataStructure"
-	cmd.class = "ClassFileTest"
+	//cmd.XjreOption = "C:\\Program Files\\Java\\jre1.8.0_101"
+	//cmd.cpOption = "E:\\JavaProject\\DataStructure\\out\\production\\DataStructure"
+	//cmd.class = "ClassFileTest"
 	//flag.Usage = printUsage
 	//flag.BoolVar(&cmd.helpFlag, "help	", false, "print help message")
 	//flag.BoolVar(&cmd.helpFlag, "?", false, "print help message")

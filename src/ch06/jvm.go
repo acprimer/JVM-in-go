@@ -40,8 +40,24 @@ func (self *JVM) execMain() {
 	mainClass := self.classLoader.LoadClass(className)
 	mainMethod := mainClass.GetMainMethod()
 	if mainMethod == nil {
-		interpret(mainMethod)
-	} else {
 		fmt.Printf("Main method not found in class %s\n", self.cmd.class)
+		return
 	}
+
+	argsArr := self.createArgsArray()
+	frame := self.mainThread.NewFrame(mainMethod)
+	frame.LocalVars().SetRef(0, argsArr)
+	self.mainThread.PushFrame(frame)
+	interpret(self.mainThread)
+}
+
+func (self *JVM) createArgsArray() *heap.Object {
+	stringClass := self.classLoader.LoadClass("java/lang/String")
+	argsLen := uint(len(self.cmd.args))
+	argsArr := stringClass.ArrayClass().NewArray(argsLen)
+	jArgs := argsArr.Refs()
+	for i, arg := range self.cmd.args {
+		jArgs[i] = heap.JString(self.classLoader, arg)
+	}
+	return argsArr
 }
