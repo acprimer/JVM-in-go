@@ -22,10 +22,10 @@ func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
 	ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount() - 1)
 	if ref == nil {
 		// hack println
-		//if methodRef.Name() == "println" {
-		//	_println(frame.OperandStack(), methodRef.Descriptor())
-		//	return
-		//}
+		if methodRef.Name() == "println" {
+			_println(frame.OperandStack(), methodRef.Descriptor())
+			return
+		}
 		panic("java.lang.NullPointerExecption")
 	}
 

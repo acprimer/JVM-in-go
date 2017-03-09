@@ -7,8 +7,8 @@ import (
 )
 
 type LDC struct{ base.Index8Instruction }
-type LDC_W struct{ base.Index8Instruction }
-type LDC2_W struct{ base.Index8Instruction }
+type LDC_W struct{ base.Index16Instruction }
+type LDC2_W struct{ base.Index16Instruction }
 
 func (self *LDC) Execute(frame *rtda.Frame) {
 	_ldc(frame, self.Index)

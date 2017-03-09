@@ -5,8 +5,8 @@ import (
 	"ch06/rtda"
 	"ch06/native"
 )
-import _ "ch06/native/lang"
-import _ "ch06/native/sun/misc"
+//import _ "ch06/native/java/lang"
+//import _ "ch06/native/sun/misc"
 
 type INVOKE_NATIVE struct {
 	base.NoOperandsInstruction

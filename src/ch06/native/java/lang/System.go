@@ -6,10 +6,14 @@ import (
 	"ch06/rtda/heap"
 )
 
+const jlSystem = "java/lang/System"
+
 func init() {
-	native.Register("java/lang/System",
+	native.Register(jlSystem,
 		"arraycopy",
 		"(Ljava/lang/Object;ILjava/lang/Object;II)V", arraycopy)
+	native.Register(jlSystem, "setIn0", "(Ljava/io/InputStream;)V", setIn0)
+	native.Register(jlSystem, "initProperties", "(Ljava/util/Properties;)Ljava/util/Properties;", initProperties)
 }
 
 func arraycopy(frame *rtda.Frame) {
@@ -46,4 +50,16 @@ func checkArrayCopy(src, dest *heap.Object) bool {
 		return srcClass == destClass
 	}
 	return true
+}
+
+func setIn0(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	in := vars.GetRef(0)
+
+	sysClass := frame.Method().Class()
+	sysClass.SetRefVar("in", "Ljava/io/InputStream;", in)
+}
+
+func initProperties(frame *rtda.Frame) {
+
 }

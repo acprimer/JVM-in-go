@@ -5,27 +5,26 @@ import (
 	"ch06/rtda"
 	"ch06/instructions/base"
 	"ch06/instructions"
+	"ch06/rtda/heap"
 )
 
-func interpret(thread *rtda.Thread) {
-	defer catchErr(thread)
-	loop(thread)
+func interpret(method *heap.Method) {
+	thread := rtda.NewThread()
+	frame := thread.NewFrame(method)
+	thread.PushFrame(frame)
+	defer catchErr(frame)
+	loop(thread, method.Code())
 }
 
-func catchErr(thread *rtda.Thread) {
+func catchErr(frame *rtda.Frame) {
 	if r := recover(); r != nil {
-		for !thread.IsStackEmpty() {
-			frame := thread.PopFrame()
-			method := frame.Method()
-			className := method.Class().Name()
-			fmt.Printf(">> pc:%4d %v.%v%v \n",
-				frame.NextPC(), className, method.Name(), method.Descriptor())
-		}
+		fmt.Printf("LocalVars: %v\n", frame.LocalVars())
+		fmt.Printf("OperandStack: %v\n", frame.OperandStack())
 		panic(r)
 	}
 }
 
-func loop(thread *rtda.Thread) {
+func loop(thread *rtda.Thread, bytecode []byte) {
 	reader := &base.BytecodeReader{}
 	for {
 		frame := thread.CurrentFrame()
@@ -38,9 +37,9 @@ func loop(thread *rtda.Thread) {
 		inst.FetchOperands(reader)
 		frame.SetNextPC(reader.PC())
 		// execute
-		fmt.Printf("pc:%2d instruction: %T %v\n", pc, inst, inst)
+		fmt.Printf("pc: %2d instruction: %T %v\n", pc, inst, inst)
 		inst.Execute(frame)
-		//frame.Print()
+		frame.Print()
 		if thread.IsStackEmpty() {
 			break
 		}

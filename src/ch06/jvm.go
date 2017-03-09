@@ -10,29 +10,30 @@ import (
 )
 
 type JVM struct {
-	cmd *Cmd
+	cmd         *Cmd
 	classLoader *heap.ClassLoader
-	mainThread *rtda.Thread
+	mainThread  *rtda.Thread
 }
 
 func newJVM(cmd *Cmd) *JVM {
 	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
 	classLoader := heap.NewClassLoader(cp)
 	return &JVM{
-		cmd:cmd,
-		classLoader:classLoader,
-		mainThread:rtda.NewThread(),
+		cmd:         cmd,
+		classLoader: classLoader,
+		mainThread:  rtda.NewThread(),
 	}
 }
 
 func (self *JVM) start() {
-	self.init()
+	self.initVM()
 	self.execMain()
 }
 
-func (self *JVM) init() {
+func (self *JVM) initVM() {
 	vmClass := self.classLoader.LoadClass("sun/misc/VM")
 	base.InitClass(self.mainThread, vmClass)
+	//interpret(self.mainThread)
 }
 
 func (self *JVM) execMain() {
@@ -48,7 +49,7 @@ func (self *JVM) execMain() {
 	frame := self.mainThread.NewFrame(mainMethod)
 	frame.LocalVars().SetRef(0, argsArr)
 	self.mainThread.PushFrame(frame)
-	interpret(self.mainThread)
+	//interpret(self.mainThread)
 }
 
 func (self *JVM) createArgsArray() *heap.Object {

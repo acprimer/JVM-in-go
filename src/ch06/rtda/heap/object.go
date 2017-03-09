@@ -21,6 +21,10 @@ func (self *Object) Fields() Slots {
 	return self.data.(Slots)
 }
 
+func (self *Object) Data() interface{} {
+	return self.data
+}
+
 func (self *Object) Extra() interface{} {
 	return self.extra
 }
